@@ -21,9 +21,9 @@ class ViewController: UIViewController {
 	
 	// --- MARK: - constants and variables ---
 	private let quiz = [
-		"Four + Two is equal to Six",
-		"Five - Three is greater than One",
-		"Three + Eight is less than Ten"
+		["Four + Two is equal to Six", "True"],
+		["Five - Three is greater than One", "True"],
+		["Three + Eight is less than Ten", "False"]
 	]
 	private var questionNumber = 0
 	
@@ -36,16 +36,28 @@ class ViewController: UIViewController {
 
 	// --- MARK: - Actions ---
 	@IBAction func answerButtonPressed(_ sender: UIButton) {
-		questionNumber += 1
-		updateUI()
+		let userAnswer = sender.currentTitle // True, False
+		let correctAnswer = quiz[questionNumber][1]
+		
+		if userAnswer == correctAnswer {
+			print("Right!")
+		} else {
+			print("Wrong!")
+		}
+	
+		if (questionNumber + 1 < quiz.count) {
+			questionNumber += 1
+			updateUI()
+		} else {
+			questionLabel.text = "Quiz Complete!"
+			progressBar.progress = 1.0
+		}
 	}
 	
 	private func updateUI() {
-		if (questionNumber >= quiz.count) {
-			questionLabel.text = "Quiz Complete!"
-		} else {
-			questionLabel.text = quiz[questionNumber]
-		}
+		questionLabel.text = quiz[questionNumber][0]
+		let progress = Float(questionNumber) / Float(quiz.count)
+		progressBar.progress = progress
 	}
 	
 }
