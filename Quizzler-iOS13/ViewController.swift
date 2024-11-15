@@ -49,27 +49,35 @@ class ViewController: UIViewController {
 		let correctAnswer = quiz[questionNumber].answer
 		
 		if userAnswer == correctAnswer {
-			print("Right!")
+			sender.backgroundColor = UIColor.green
 		} else {
-			print("Wrong!")
+			sender.backgroundColor = UIColor.red
 		}
 		
 		if (questionNumber + 1 < quiz.count) {
 			questionNumber += 1
-			updateUI()
+			UIView.animate(withDuration: 0.5, animations: {
+				self.updateUI()
+			})
 		} else {
 			questionLabel.text = "Quiz Complete!"
 			progressBar.progress = 1.0
 			trueButton.isEnabled = false
 			falseButton.isEnabled = false
+			UIView.animate(withDuration: 0.5, animations: {
+				self.trueButton.backgroundColor = UIColor.clear
+				self.falseButton.backgroundColor = UIColor.clear
+			})
 		}
 	}
 	
 	private func updateUI() {
 		questionLabel.text = quiz[questionNumber].question
-		let progress = Float(questionNumber) / Float(quiz.count)
-		progressBar.progress = progress
+		let progress = Float(questionNumber + 1) / Float(quiz.count)
+		
+			trueButton.backgroundColor = UIColor.clear
+			falseButton.backgroundColor = UIColor.clear
+			progressBar.progress = progress
 	}
-	
 }
 
